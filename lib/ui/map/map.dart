@@ -23,7 +23,7 @@ class _MapWidgetState extends State<MapWidget> with AfterInit {
   _MoveData? _moveData;
   int index = 0;
   final focusNode = FocusNode();
-  int provinceRadius = 2;
+  int provinceRadius = 5;
 
   @override
   void afterInit() {
@@ -208,6 +208,7 @@ class _HexTileState extends State<HexTile> with AfterInit {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('${pos.qrs}', style: ts),
+            Text('${pos.toProvinceAddress(provinceRadius).qrs}', style: ts),
           ],
         ),
       ),
