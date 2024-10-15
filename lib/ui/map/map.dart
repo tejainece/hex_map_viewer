@@ -53,7 +53,7 @@ class _MapWidgetState extends State<MapWidget> with AfterInit {
             top: top,
             width: tileSize.width,
             height: tileSize.height,
-            child: HexTile(pos, tileSize, provinceRadius, index)));
+            child: HexTile(pos, tileSize, provinceRadius)));
       }
     }
 
@@ -86,6 +86,7 @@ class _MapWidgetState extends State<MapWidget> with AfterInit {
           }
           if (value.logicalKey.keyId >= 48 || value.logicalKey.keyId <= 57) {
             int v = value.logicalKey.keyId - 48;
+            debugPrint('index: $v');
             setState(() {
               index = v % colors.length;
             });
@@ -155,12 +156,9 @@ class HexTile extends StatefulWidget {
 
   final HexSize size;
 
-  final int selIndex;
-
   final int provinceRadius;
 
-  const HexTile(this.pos, this.size, this.provinceRadius, this.selIndex,
-      {Key? key})
+  const HexTile(this.pos, this.size, this.provinceRadius, {Key? key})
       : super(key: key);
 
   @override
@@ -175,10 +173,12 @@ class _HexTileState extends State<HexTile> with AfterInit {
   int get provinceRadius => widget.provinceRadius;
 
   late final SharedPreferences prefs;
+  late final _MapWidgetState parent;
 
   @override
   void afterInit() {
     prefs = context.findAncestorStateOfType<MyHomePageState>()!.prefs;
+    parent = context.findAncestorStateOfType<_MapWidgetState>()!;
   }
 
   int get index {
@@ -191,13 +191,14 @@ class _HexTileState extends State<HexTile> with AfterInit {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        int index = parent.index;
         setState(() {
-          prefs.setInt('$provinceRadius.map.${pos.id}', widget.selIndex);
+          prefs.setInt('$provinceRadius.map.${pos.id}', index);
         });
       },
       onSecondaryTap: () {
         setState(() {
-          prefs.setInt('$provinceRadius.map.${pos.id}', widget.selIndex);
+          prefs.setInt('$provinceRadius.map.${pos.id}', parent.index);
         });
       },
       child: HexagonWidget(
@@ -207,8 +208,8 @@ class _HexTileState extends State<HexTile> with AfterInit {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('${pos.qrs}', style: ts),
-            Text('${pos.toProvinceAddress(provinceRadius).qrs}', style: ts),
+            Text(pos.qrs, style: ts),
+            Text(pos.toProvinceAddress(provinceRadius).qrs, style: ts),
           ],
         ),
       ),
