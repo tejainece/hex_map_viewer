@@ -117,7 +117,7 @@ class _MapWidgetState extends State<MapWidget> with AfterInit {
           onMoveUpdate: (MoveEvent event) {
             final change =
                 event.localPos.toPoint() - _moveData!.startPos.toPoint();
-            final posDiff = Position.fromPoint(change, tileSize);
+            final posDiff = Position.fromPixel(change, tileSize);
             final newCenter = _moveData!.startCenter - posDiff;
             // print('$change $posDiff $center $newCenter');
             if (newCenter != center) {
@@ -128,7 +128,7 @@ class _MapWidgetState extends State<MapWidget> with AfterInit {
           onMoveEnd: (MoveEvent event) {
             final change =
                 event.localPos.toPoint() - _moveData!.startPos.toPoint();
-            final posDiff = Position.fromPoint(change, tileSize);
+            final posDiff = Position.fromPixel(change, tileSize);
             final newCenter = _moveData!.startCenter - posDiff;
             if (newCenter != center) {
               center = newCenter;
