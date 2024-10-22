@@ -9,7 +9,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   final SharedPreferences prefs;
-  MyApp(this.prefs, {super.key});
+  const MyApp(this.prefs, {super.key});
 
   // This widget is the root of your application.
   @override

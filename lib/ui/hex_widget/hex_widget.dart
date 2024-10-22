@@ -14,6 +14,10 @@ class HexagonBorder {
         color == other.color &&
         thickness == other.thickness;
   }
+
+  @override
+  int get hashCode => Object.hash(color.hashCode, thickness.hashCode);
+
 }
 
 class HexagonWidget extends StatelessWidget {
@@ -47,7 +51,7 @@ class HexagonWidget extends StatelessWidget {
       );
     }
 
-    return Container(
+    return SizedBox(
       width: width,
       height: height,
       // color: Colors.red,
